@@ -4,7 +4,9 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hugovallada/crud-gin/src/controller"
 	"github.com/hugovallada/crud-gin/src/controller/routes"
+	"github.com/hugovallada/crud-gin/src/model/service"
 	"github.com/joho/godotenv"
 )
 
@@ -16,8 +18,13 @@ func init() {
 }
 
 func main() {
+	// Init dependencies
+	srv := service.NewUserDomainService()
+	userController := controller.NewUserController(srv)
+	
+	
 	router := gin.Default() // New não instancia handlers ou middlewares, o default instancia o middleware de logger e recovery
-	routes.InitRoutes(&router.RouterGroup)
+	routes.InitRoutes(&router.RouterGroup, userController)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
