@@ -45,4 +45,6 @@ func (uc *userControllerInterface) CreateUser(c *gin.Context) {
 func (uc *userControllerInterface) DeleteUser(c *gin.Context) {
 }
 
-func (uc *userControllerInterface) UpdateUser(c *gin.Context) {}
+func (uc *userControllerInterface) UpdateUser(c *gin.Context) {
+
+}
