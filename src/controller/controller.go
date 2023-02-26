@@ -22,6 +22,7 @@ func (uc *userControllerInterface) FindUserById(c *gin.Context) {
 func (uc *userControllerInterface) FindUserByEmail(c *gin.Context) {}
 
 func (uc *userControllerInterface) CreateUser(c *gin.Context) {
+	
 	logger.Info("Creating user...", zap.String("journey", "createUser"))
 	var userRequest request.UserRequest
 
@@ -32,12 +33,13 @@ func (uc *userControllerInterface) CreateUser(c *gin.Context) {
 		return
 	}
 	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
-	if err := uc.service.Create(domain); err != nil {
+	domainResult, err := uc.service.Create(domain)
+	if err != nil {
 		logger.Error("error trying to create an object", err, zap.String("journey", "createUser"))
 		c.JSON(err.Code, err)
 		return
 	}
-	response := view.ConvertDomainToResponse(domain)
+	response := view.ConvertDomainToResponse(domainResult)
 	c.JSON(http.StatusCreated, response)
 	logger.Info("User created", zap.String("email", response.Email))
 }
