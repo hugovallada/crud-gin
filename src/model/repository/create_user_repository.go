@@ -11,9 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-const (
-	DATABASE_COLLECTION = "DATABASE_COLLECTION"
-)
 
 func (r *userRepository) CreateUser(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("init create user repository")

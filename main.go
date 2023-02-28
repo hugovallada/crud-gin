@@ -31,6 +31,7 @@ func main() {
 	router := gin.Default() // New não instancia handlers ou middlewares, o default instancia o middleware de logger e recovery
 	routes.InitRoutes(&router.RouterGroup, userController)
 
+	logger.Info("Starting application on port 8080")
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
