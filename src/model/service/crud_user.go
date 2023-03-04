@@ -22,8 +22,14 @@ func (u *userDomainService) UpdateUser(userId string, userDomain model.UserDomai
 	return nil
 }
 
-func (u *userDomainService) FindUser(userId string) (*model.UserDomainInterface, *rest_err.RestErr) {
-	return nil, nil
+func (u *userDomainService) FindUserByID(userId string) (model.UserDomainInterface, *rest_err.RestErr) {
+	logger.Info("init find user by id", zap.String("journey", "findUserById"))
+	return u.userReposiotry.FindUserByID(userId)
+}
+
+func (u *userDomainService) FindUserByEmail(email string) (model.UserDomainInterface, *rest_err.RestErr) {
+	logger.Info("init find user by email", zap.String("journey", "findUserByEmail"))
+	return u.userReposiotry.FindUserByEmail(email)
 }
 
 func (u *userDomainService) DeleteUser(userId string) *rest_err.RestErr {

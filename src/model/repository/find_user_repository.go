@@ -11,6 +11,7 @@ import (
 	"github.com/hugovallada/crud-gin/src/model/repository/entity"
 	"github.com/hugovallada/crud-gin/src/model/repository/entity/converter"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -41,9 +42,9 @@ func (r *userRepository) FindUserByID(id string) (model.UserDomainInterface, *re
 	logger.Info("init create user repository")
 	collection := r.databaseConnection.Collection(os.Getenv(DATABASE_COLLECTION))
 
-	userEntity := entity.UserEntity{}
-
-	filter := bson.D{{Key: "_id", Value: id}}
+	userEntity := &entity.UserEntity{}
+	objectId, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.D{{Key: "_id", Value: objectId}}
 	err := collection.FindOne(context.Background(), filter).Decode(userEntity)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -55,6 +56,7 @@ func (r *userRepository) FindUserByID(id string) (model.UserDomainInterface, *re
 		logger.Error("Internal error while connecting to the database", err, zap.String("journey", "findUser"))
 		return nil, rest_err.NewInternalServerError(errorMessage)
 	}
-	return converter.ConvertEntityToDomain(userEntity), nil
+	fmt.Println(*userEntity)
+	return converter.ConvertEntityToDomain(*userEntity), nil
 
 }

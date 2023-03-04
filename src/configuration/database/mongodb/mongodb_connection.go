@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	MONGODB_URL = "DATABASE_URL"
+	MONGODB_URL         = "DATABASE_URL"
 	MONGO_DATABASE_NAME = "DATABASE_NAME"
 )
 
